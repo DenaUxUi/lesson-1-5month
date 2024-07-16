@@ -1,25 +1,30 @@
+import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import { Link } from "react-router-dom"; // Import Link for proper navigation
 
-const Home = () => {
-    const [users, setUsers] = useState([]);
-    const navigate = useNavigate();
+const Page2 = () => {
+  const [users, setUsers] = useState([]);
+  const navigate = useNavigate();
 
-    useEffect(() => {
-        fetch(`https://jsonplaceholder.typicode.com/users`)
-        .then (responce => responce.json())
-        .then((data) =>{
-            setUsers(data)
-        })
-    }, [])
-    return (
-        <div>
-            <h1>home</h1>
-            <button onClick={()=>{
-                navigate(-1)
-            }}>go back</button>
-        </div>
-    );
-}
+  useEffect(() => {
+    fetch(`https://jsonplaceholder.typicode.com/users`)
+    .then (responce => responce.json())
+    .then((data) =>{
+        setUsers(data)
+    })
+}, [])
 
-export default Home;
+  return (
+    <div>
+      <ul>
+        {users.map((item) => (
+          <h3 key={item.id}>
+            <Link to={`/user/${item.id}`}>{item.name}</Link>
+          </h3>
+        ))}
+      </ul>
+    </div>
+  );
+};
+
+export default Page2;

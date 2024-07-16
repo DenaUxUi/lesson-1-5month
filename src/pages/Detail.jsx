@@ -1,23 +1,33 @@
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
+import Preloader from "../components/Preloader";
 
 const Detail = () =>{
     const [user, setUser] = useState({});
+    const [loading, setLoading] = useState(true);
     const params = useParams();
 
     useEffect(()=>{
         fetch(`https://jsonplaceholder.typicode.com/users/${params.id}`)
-        .then(responce => responce.json())
+        .then(response => response.json())
         .then((data)=>{
             setUser(data)
+            setLoading(false);
         })
-    },[])
+    },[params.id]);
+
+    if (loading) {
+        return <Preloader />;
+    }
+
     return (
-        <div>
-            <h1>Detail</h1>
-                <h1>{user.name}</h1>
-                <h1>{user.surname}</h1>
-        </div>
+            <ul>
+                <li>{user.name}</li>
+                <li>{user.username}</li>
+                <li>{user.email}</li>
+                <li>{user.phone}</li>
+                <li>{user.website}</li>
+            </ul>
     );
 }
 
